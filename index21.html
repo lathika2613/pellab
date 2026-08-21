@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Profiles List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h2 {
+            color: blue;
+        }
+
+        li {
+            padding: 8px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>User Profiles List (Consumed via REST API)</h2>
+
+    <ul id="userList">
+        <li>Loading users...</li>
+    </ul>
+
+    <script>
+        const apiUrl =
+            "https://jsonplaceholder.typicode.com/users";
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(users => {
+
+                const userList =
+                    document.getElementById("userList");
+
+                userList.innerHTML = "";
+
+                users.forEach(user => {
+
+                    const li =
+                        document.createElement("li");
+
+                    li.innerHTML =
+                        "<strong>" + user.name + "</strong> - " +
+                        user.email + " (" +
+                        user.company.name + ")";
+
+                    userList.appendChild(li);
+                });
+
+                console.log("Users fetched successfully");
+            })
+            .catch(error => {
+                console.error("API Call Failed:", error);
+
+                document.getElementById("userList").innerHTML =
+                    "<li>Error loading users.</li>";
+            });
+    </script>
+
+</body>
+</html>
